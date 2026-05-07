@@ -1,0 +1,187 @@
+/**
+ * tokens.css — LukaCenter Design System
+ * Generated from Figma Variables (file: pIcCxtr9x33iMhlwj5MNaB)
+ *
+ * 3 layers:
+ *   1. Primitives  — raw values (colors, spacing, radius)
+ *   2. Semantic    — context-aware aliases (Light mode)
+ *   3. Component   — per-component tokens
+ *
+ * Usage:
+ *   color: var(--lk-text-primary);
+ *   background: var(--lk-bg-page);
+ *   border-color: var(--lk-border-default);
+ */
+
+/* ═══════════════════════════════════════════════════════
+   LAYER 1 — PRIMITIVES
+   ═══════════════════════════════════════════════════════ */
+:root {
+
+  /* Green ramp */
+  --lk-green-50:      #EEF7F7;
+  --lk-green-100:     #EAFBFB;
+  --lk-green-200:     #DBF9FA;  /* Background */
+  --lk-green-300:     #98DFE0;
+  --lk-green-400:     #5F9B9C;
+  --lk-green-500:     #3A7E7F;  /* Primary */
+  --lk-green-600:     #2E7C7D;
+  --lk-green-700:     #1F6A6B;
+  --lk-green-800:     #125051;  /* Secondary */
+  --lk-green-900:     #0F3F40;
+  --lk-green-500-40:  rgba(58, 126, 127, 0.4);
+  --lk-green-50-0:    rgba(238, 247, 247, 0);
+
+  /* Pink / Accent ramp */
+  --lk-pink-50:   #FFF3F5;
+  --lk-pink-100:  #FFE6EA;
+  --lk-pink-200:  #FFD1DA;
+  --lk-pink-300:  #FFB0C1;
+  --lk-pink-400:  #FF8FA9;
+  --lk-pink-500:  #FF6F91;  /* Accent */
+  --lk-pink-600:  #E75578;
+  --lk-pink-700:  #C43F5F;
+  --lk-pink-800:  #A12E4A;
+  --lk-pink-900:  #7A1F34;
+
+  /* Gray ramp */
+  --lk-gray-0:    #FFFFFF;
+  --lk-gray-50:   #EEF7F7;
+  --lk-gray-100:  #E6F0F0;
+  --lk-gray-200:  #D6E0E1;
+  --lk-gray-300:  #B8C6C7;
+  --lk-gray-400:  #8A9B9C;
+  --lk-gray-500:  #5F7071;
+  --lk-gray-600:  #3A4A4B;
+  --lk-gray-700:  #222D2E;  /* Text */
+  --lk-gray-800:  #161D1E;
+  --lk-gray-900:  #0B0E0F;
+  --lk-gray-950:  #050708;
+
+  /* Status */
+  --lk-status-red:    #EF4444;
+  --lk-status-green:  #22C55E;
+  --lk-status-yellow: #EAB308;
+  --lk-status-info:   #3B82F6;
+
+  /* Spacing */
+  --lk-space-1:   4px;
+  --lk-space-2:   8px;
+  --lk-space-3:   12px;
+  --lk-space-4:   16px;
+  --lk-space-5:   20px;
+  --lk-space-6:   24px;
+  --lk-space-8:   32px;
+  --lk-space-10:  40px;
+  --lk-space-12:  48px;
+  --lk-space-16:  64px;
+
+  /* Border radius */
+  --lk-radius-sm:   4px;
+  --lk-radius-md:   8px;
+  --lk-radius-lg:   12px;
+  --lk-radius-xl:   16px;
+  --lk-radius-full: 9999px;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   LAYER 2 — SEMANTIC (Light mode)
+   Note: Dark mode not defined in Figma DS — only 1 mode.
+   Add [data-theme="dark"] block when Dark is designed.
+   ═══════════════════════════════════════════════════════ */
+:root,
+[data-theme="light"] {
+
+  /* Text */
+  --lk-text-primary:      var(--lk-green-800);   /* #125051 */
+  --lk-text-secondary:    var(--lk-green-500);   /* #3A7E7F */
+  --lk-text-heading:      var(--lk-green-400);   /* #5F9B9C */
+  --lk-text-inverse:      var(--lk-green-100);   /* #EAFBFB — on dark bg */
+  --lk-text-placeholder:  var(--lk-gray-400);    /* #8A9B9C */
+
+  /* Backgrounds */
+  --lk-bg-page:     var(--lk-gray-0);      /* #FFFFFF */
+  --lk-bg-section:  var(--lk-green-50);    /* #EEF7F7 */
+  --lk-bg-card:     var(--lk-gray-0);      /* #FFFFFF */
+  --lk-bg-footer:   var(--lk-green-800);   /* #125051 */
+  --lk-bg-icon:     var(--lk-green-300);   /* #98DFE0 */
+
+  /* Borders */
+  --lk-border-default: var(--lk-green-300);   /* #98DFE0 */
+  --lk-border-strong:  var(--lk-green-600);   /* #2E7C7D */
+  --lk-border-focus:   var(--lk-green-400);   /* #5F9B9C */
+
+  /* Icons */
+  --lk-icon-line: var(--lk-green-900);   /* #0F3F40 */
+
+  /* Chip states */
+  --lk-chip-default: var(--lk-green-200);   /* #DBF9FA */
+  --lk-chip-hover:   var(--lk-green-300);   /* #98DFE0 */
+  --lk-chip-pressed: var(--lk-green-500);   /* #3A7E7F */
+
+  /* Button states */
+  --lk-button-default: var(--lk-green-500);   /* #3A7E7F */
+  --lk-button-hover:   var(--lk-pink-500);    /* #FF6F91 */
+  --lk-button-pressed: var(--lk-pink-600);    /* #E75578 */
+
+  /* Status */
+  --lk-color-error:   var(--lk-status-red);    /* #EF4444 */
+  --lk-color-success: var(--lk-status-green);  /* #22C55E */
+  --lk-color-warning: var(--lk-status-yellow); /* #EAB308 */
+  --lk-color-info:    var(--lk-status-info);   /* #3B82F6 */
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   LAYER 3 — COMPONENT TOKENS
+   ═══════════════════════════════════════════════════════ */
+:root {
+
+  /* Button / Primary */
+  --lk-btn-primary-bg:           var(--lk-chip-default);   /* #DBF9FA */
+  --lk-btn-primary-bg-hover:     var(--lk-chip-hover);     /* #98DFE0 */
+  --lk-btn-primary-bg-pressed:   var(--lk-chip-pressed);   /* #3A7E7F */
+  --lk-btn-primary-text:         var(--lk-text-primary);   /* #125051 */
+  --lk-btn-primary-text-pressed: var(--lk-text-inverse);   /* #EAFBFB */
+
+  /* Button / Accent */
+  --lk-btn-accent-bg:        var(--lk-button-hover);    /* #FF6F91 */
+  --lk-btn-accent-bg-hover:  var(--lk-button-pressed);  /* #E75578 */
+  --lk-btn-accent-text:      var(--lk-text-inverse);    /* #EAFBFB */
+
+  /* Button / Tertiary */
+  --lk-btn-tertiary-text:       var(--lk-text-primary);   /* #125051 */
+  --lk-btn-tertiary-text-hover: var(--lk-button-pressed); /* #E75578 */
+
+  /* Input / TextFields */
+  --lk-input-bg:             var(--lk-bg-page);         /* #FFFFFF */
+  --lk-input-border:         var(--lk-border-default);  /* #98DFE0 */
+  --lk-input-border-focus:   var(--lk-chip-default);    /* #DBF9FA */
+  --lk-input-border-active:  var(--lk-border-strong);   /* #2E7C7D */
+  --lk-input-border-error:   var(--lk-color-error);     /* #EF4444 */
+  --lk-input-text:           var(--lk-text-primary);    /* #125051 */
+  --lk-input-placeholder:    var(--lk-text-placeholder);/* #8A9B9C */
+  --lk-input-radius:         var(--lk-radius-full);     /* 9999px */
+
+  /* Card */
+  --lk-card-bg:     var(--lk-bg-card);       /* #FFFFFF */
+  --lk-card-border: var(--lk-border-default);/* #98DFE0 */
+
+  /* Chip / Symptom chips */
+  --lk-chip-bg:            var(--lk-chip-default);   /* #DBF9FA */
+  --lk-chip-bg-hover:      var(--lk-chip-hover);     /* #98DFE0 */
+  --lk-chip-bg-active:     var(--lk-chip-pressed);   /* #3A7E7F */
+  --lk-chip-text:          var(--lk-text-primary);   /* #125051 */
+  --lk-chip-text-active:   var(--lk-text-inverse);   /* #EAFBFB */
+  --lk-chip-border:        var(--lk-text-primary);   /* #125051 */
+
+  /* Text / Typography roles */
+  --lk-type-primary:   var(--lk-text-primary);   /* #125051 */
+  --lk-type-secondary: var(--lk-text-secondary); /* #3A7E7F */
+  --lk-type-heading:   var(--lk-text-heading);   /* #5F9B9C */
+
+  /* Icon */
+  --lk-icon-color:    var(--lk-icon-line); /* #0F3F40 */
+  --lk-icon-bg-fill:  var(--lk-bg-icon);  /* #98DFE0 */
+}

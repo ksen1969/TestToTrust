@@ -1,0 +1,177 @@
+/* ═══════════════════════════════════════════════════════
+   TextFields.css
+   Uses CSS custom properties from src/tokens/tokens.css
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Wrapper (only when helper row is present) ──────── */
+.tf-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lk-space-1);       /* 4px */
+  width: 100%;
+}
+
+/* ── Field root ─────────────────────────────────────── */
+.tf-root {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-2);       /* 8px */
+  height: 54px;
+  width: 361px;
+  padding: var(--lk-space-2) var(--lk-space-6);  /* 8px 24px */
+  background: var(--lk-input-bg);
+  border: 1px solid var(--lk-input-border);
+  border-radius: var(--lk-input-radius);
+  cursor: pointer;
+  position: relative;
+  box-sizing: border-box;
+  transition: border-color 150ms ease;
+}
+
+/* Mobile: full width */
+@media (max-width: 390px) {
+  .tf-root {
+    width: 100%;
+  }
+}
+
+/* ── States ─────────────────────────────────────────── */
+
+.tf-root--hover {
+  border-color: var(--lk-input-border-focus);   /* #DBF9FA */
+}
+
+.tf-root--active {
+  border-color: var(--lk-input-border-active);  /* #2E7C7D */
+  outline: none;
+}
+
+.tf-root--success,
+.tf-root--filled {
+  border-color: var(--lk-input-border);         /* #98DFE0 */
+}
+
+.tf-root--error {
+  border-color: var(--lk-input-border-error);   /* #EF4444 */
+}
+
+.tf-root--warning {
+  border-color: var(--lk-status-yellow);        /* #EAB308 */
+}
+
+.tf-root--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Focus-visible ring (keyboard nav) */
+.tf-root:focus-visible {
+  outline: 2px solid var(--lk-border-strong);
+  outline-offset: 2px;
+}
+
+/* ── Input area ─────────────────────────────────────── */
+.tf-input-area {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+/* ── Label ───────────────────────────────────────────── */
+.tf-label {
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--lk-input-placeholder);          /* #8A9B9C */
+  cursor: pointer;
+  transition:
+    font-size 150ms ease,
+    color 150ms ease,
+    transform 150ms ease;
+  transform-origin: left top;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Floating label — Active / Filled / Success / Error / Warning */
+.tf-label--float {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--lk-text-primary);               /* #125051 */
+}
+
+/* ── Input (Active state) ────────────────────────────── */
+.tf-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Inter Tight', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--lk-input-text);                 /* #125051 */
+  caret-color: var(--lk-input-border-active);  /* #2E7C7D */
+  padding: 0;
+}
+
+.tf-input::placeholder {
+  color: var(--lk-input-placeholder);
+}
+
+/* ── Value (Filled states) ──────────────────────────── */
+.tf-value {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--lk-input-text);                 /* #125051 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Icons ───────────────────────────────────────────── */
+.tf-icon-left,
+.tf-icon-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--lk-text-primary);               /* #125051 */
+}
+
+/* ── Helper row ─────────────────────────────────────── */
+.tf-helper {
+  display: flex;
+  align-items: center;
+  gap: var(--lk-space-1);       /* 4px */
+  padding-left: 20px;           /* Spacing/250 */
+  height: 16px;
+}
+
+.tf-helper-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tf-helper-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.tf-helper--success .tf-helper-text { color: var(--lk-color-success); }   /* #22C55E */
+.tf-helper--error   .tf-helper-text { color: var(--lk-color-error);   }   /* #EF4444 */
+.tf-helper--warning .tf-helper-text { color: var(--lk-color-warning); }   /* #EAB308 */

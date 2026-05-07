@@ -1,0 +1,53 @@
+{
+  "$metadata": {
+    "tokenSetOrder": ["component"]
+  },
+  "button": {
+    "primary": {
+      "bg-default":    { "$value": "{color.chip.default}", "$type": "color", "$description": "green-200 #DBF9FA" },
+      "bg-hover":      { "$value": "{color.chip.hover}",   "$type": "color", "$description": "green-300 #98DFE0" },
+      "bg-pressed":    { "$value": "{color.chip.pressed}", "$type": "color", "$description": "green-500 #3A7E7F" },
+      "text-default":  { "$value": "{color.text.primary}", "$type": "color", "$description": "green-800 #125051" },
+      "text-pressed":  { "$value": "{color.text.inverse}", "$type": "color", "$description": "green-100 #EAFBFB" }
+    },
+    "accent": {
+      "bg-default": { "$value": "{color.button.hover}",   "$type": "color", "$description": "pink-500 #FF6F91" },
+      "bg-hover":   { "$value": "{color.button.pressed}", "$type": "color", "$description": "pink-600 #E75578" },
+      "text":       { "$value": "{color.text.inverse}",   "$type": "color", "$description": "green-100 #EAFBFB" }
+    },
+    "tertiary": {
+      "text-default": { "$value": "{color.text.primary}",  "$type": "color" },
+      "text-hover":   { "$value": "{color.button.pressed}", "$type": "color", "$description": "pink-600 #E75578" }
+    }
+  },
+  "input": {
+    "bg":             { "$value": "{color.bg.page}",       "$type": "color", "$description": "#FFFFFF" },
+    "border-default": { "$value": "{color.border.default}","$type": "color", "$description": "#98DFE0" },
+    "border-focus":   { "$value": "{color.chip.default}",  "$type": "color", "$description": "#DBF9FA" },
+    "border-strong":  { "$value": "{color.border.strong}", "$type": "color", "$description": "#2E7C7D — Active state border" },
+    "border-error":   { "$value": "{color.status.error}",  "$type": "color", "$description": "#EF4444" },
+    "text":           { "$value": "{color.text.primary}",  "$type": "color" },
+    "placeholder":    { "$value": "{color.text.placeholder}", "$type": "color" }
+  },
+  "card": {
+    "bg":     { "$value": "{color.bg.card}",       "$type": "color" },
+    "border": { "$value": "{color.border.default}", "$type": "color" }
+  },
+  "chip": {
+    "bg-default":  { "$value": "{color.chip.default}", "$type": "color" },
+    "bg-hover":    { "$value": "{color.chip.hover}",   "$type": "color" },
+    "bg-pressed":  { "$value": "{color.chip.pressed}", "$type": "color" },
+    "text-default":{ "$value": "{color.text.primary}", "$type": "color" },
+    "text-pressed":{ "$value": "{color.text.inverse}", "$type": "color" },
+    "border":      { "$value": "{color.text.primary}", "$type": "color", "$description": "Chip border = text-primary (green-800)" }
+  },
+  "text": {
+    "primary":   { "$value": "{color.text.primary}",   "$type": "color" },
+    "secondary": { "$value": "{color.text.secondary}", "$type": "color" },
+    "heading":   { "$value": "{color.text.heading}",   "$type": "color" }
+  },
+  "icon": {
+    "line": { "$value": "{color.icon.line}", "$type": "color" },
+    "bg":   { "$value": "{color.bg.icon}",  "$type": "color" }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "$metadata": {
+    "tokenSetOrder": ["semantic"],
+    "$description": "Semantic tokens — Light mode. Dark mode not defined in Figma DS (only 1 mode present)."
+  },
+  "color": {
+    "text": {
+      "primary":     { "$value": "{color.green.800}", "$type": "color", "$description": "#125051 — body text, default" },
+      "secondary":   { "$value": "{color.green.500}", "$type": "color", "$description": "#3A7E7F — supporting text" },
+      "heading":     { "$value": "{color.green.400}", "$type": "color", "$description": "#5F9B9C — headings" },
+      "inverse":     { "$value": "{color.green.100}", "$type": "color", "$description": "#EAFBFB — text on dark bg" },
+      "placeholder": { "$value": "{color.gray.400}",  "$type": "color", "$description": "#8A9B9C — input placeholder" }
+    },
+    "bg": {
+      "page":    { "$value": "{color.gray.0}",   "$type": "color", "$description": "#FFFFFF — main page background" },
+      "section": { "$value": "{color.green.50}", "$type": "color", "$description": "#EEF7F7 — alternate section bg" },
+      "card":    { "$value": "{color.gray.0}",   "$type": "color", "$description": "#FFFFFF — card background" },
+      "footer":  { "$value": "{color.green.800}","$type": "color", "$description": "#125051 — footer background" },
+      "icon":    { "$value": "{color.green.300}","$type": "color", "$description": "#98DFE0 — icon container bg" }
+    },
+    "border": {
+      "default": { "$value": "{color.green.300}", "$type": "color", "$description": "#98DFE0" },
+      "strong":  { "$value": "{color.green.600}", "$type": "color", "$description": "#2E7C7D — active/focus strong border" },
+      "focus":   { "$value": "{color.green.400}", "$type": "color", "$description": "#5F9B9C — focus ring" }
+    },
+    "icon": {
+      "line": { "$value": "{color.green.900}", "$type": "color", "$description": "#0F3F40 — icon stroke" }
+    },
+    "chip": {
+      "default": { "$value": "{color.green.200}", "$type": "color", "$description": "#DBF9FA" },
+      "hover":   { "$value": "{color.green.300}", "$type": "color", "$description": "#98DFE0" },
+      "pressed": { "$value": "{color.green.500}", "$type": "color", "$description": "#3A7E7F" }
+    },
+    "button": {
+      "default": { "$value": "{color.green.500}", "$type": "color" },
+      "hover":   { "$value": "{color.pink.500}",  "$type": "color", "$description": "#FF6F91" },
+      "pressed": { "$value": "{color.pink.600}",  "$type": "color", "$description": "#E75578" }
+    },
+    "status": {
+      "error":   { "$value": "{color.status.red}",    "$type": "color" },
+      "success": { "$value": "{color.status.green}",  "$type": "color" },
+      "warning": { "$value": "{color.status.yellow}", "$type": "color" },
+      "info":    { "$value": "{color.status.info}",   "$type": "color" }
+    }
+  }
+}
