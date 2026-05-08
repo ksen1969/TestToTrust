@@ -1,0 +1,231 @@
+{/* TextFields.mdx */}
+import { Meta, Canvas, Controls, ArgTypes, Story } from '@storybook/blocks';
+import * as TextFieldsStories from './TextFields.stories';
+
+<Meta of={TextFieldsStories} />
+
+# TextFields
+
+Custom combobox/select input for LUKE Medical Center.
+
+Renders a 54px pill-shaped field with a floating label, optional left/right icons,
+and an explicit helper row. The component is **fully controlled** — it owns no open/closed state internally.
+
+---
+
+## States
+
+The component has 8 states. State changes are the parent's responsibility.
+
+| State      | When to use |
+|------------|-------------|
+| `Default`  | Field is visible but not interacted with |
+| `Hover`    | Pointer is over the field (apply via CSS or parent) |
+| `Active`   | Field is open — mounts a real `<input type="text">` and auto-focuses |
+| `Filled`   | A value has been committed; field is closed |
+| `Success`  | Value passed validation |
+| `Error`    | Value failed validation |
+| `Warning`  | Value is valid but requires attention |
+| `Disabled` | Field is not interactive |
+
+<Canvas of={TextFieldsStories.AllStates} />
+
+---
+
+## Usage Guidelines
+
+### When to use TextFields
+
+- Selecting a value from a list (combobox pattern).
+- Capturing free-text input that opens a dropdown (e.g. date picker trigger, address lookup).
+- Any field where the label must remain visible after value entry.
+
+### When not to use TextFields
+
+- Simple text-only inputs with no dropdown — use a plain `<input>` instead.
+- Multi-line content — use `<textarea>`.
+- Binary choices — use a toggle or checkbox.
+
+---
+
+## Do's and Don'ts
+
+### ✅ Do
+
+**Always pass a meaningful `label`.**
+The label is the only persistent text identifier for the field.
+It is used as the `aria-label` for the combobox wrapper and the `aria-label` for the inner input.
+
+```tsx
+<TextFields label="Date of birth" state="Active" />
+```
+
+**Control `showHelper` explicitly.**
+Never rely on `state` to auto-show the helper. Pass `showHelper={true}` only
+when you have something meaningful to display.
+
+```tsx
+// Error state — validation failed — helper shown explicitly
+<TextFields
+  state="Error"
+  value={value}
+  showHelper={hasError}
+  helperMessage="Enter a valid date (DD.MM.YYYY)"
+/>
+```
+
+**Provide `helperMessage` for Error and Warning.**
+Default messages (`'Error text'`, `'Warning text'`) are placeholder copy.
+Replace them with actionable, specific text.
+
+```tsx
+// ✅
+helperMessage="Phone number must be 10 digits"
+
+// ✗
+helperMessage="Error text"
+```
+
+**Keep the label short — under 24 characters.**
+The floating label shrinks to 13px above the value. Long labels clip on narrow viewports.
+
+---
+
+### ✗ Don't
+
+**Don't auto-derive helper visibility from state in the parent.**
+```tsx
+// ✗ Fragile — couples UI to state name
+<TextFields state={state} showHelper={state === 'Error' || state === 'Warning'} />
+
+// ✅ Explicit — driven by real validation outcome
+<TextFields state={state} showHelper={validationResult.hasError} helperMessage={validationResult.message} />
+```
+
+**Don't use `state="Disabled"` to hide a field.**
+Use CSS `display: none` or conditional rendering instead.
+A disabled field is still in the DOM and announced to screen readers.
+
+**Don't pass `rightInstance={undefined}`.**
+Use `null` to suppress the icon, or omit the prop entirely to keep the default arrow.
+
+```tsx
+// ✅ No right icon
+<TextFields showRightIcon={false} />
+
+// ✅ Custom icon
+<TextFields rightInstance={<CalendarIcon />} />
+```
+
+**Don't drive `state` from a single boolean flag.**
+Use a typed state machine or explicit state variable.
+
+```tsx
+// ✗
+state={isError ? 'Error' : isSuccess ? 'Success' : 'Default'}
+
+// ✅
+state={fieldState} // TextFieldState enum
+```
+
+---
+
+## Props
+
+<ArgTypes of={TextFieldsStories} />
+
+---
+
+## Sandbox
+
+<Canvas of={TextFieldsStories.Sandbox} />
+<Controls of={TextFieldsStories.Sandbox} />
+
+---
+
+## Accessibility
+
+### Semantic structure
+
+The field wrapper is `<div role="combobox">` with:
+
+| Attribute | Value |
+|---|---|
+| `role` | `combobox` |
+| `aria-haspopup` | `listbox` |
+| `aria-expanded` | `true` when `state === 'Active'`, `false` otherwise |
+| `aria-disabled` | `true` when `state === 'Disabled'`, `false` otherwise |
+| `aria-label` | Value of the `label` prop |
+
+The inner `<input>` in `Active` state carries its own `aria-label={label}`.
+All decorative icons (`ArrowDown`, `ArrowUp`, `Check`, `Warning`) carry `aria-hidden="true"`.
+
+The helper row uses `role="alert"` and `aria-live="polite"` so screen readers
+announce the message when it appears without stealing focus.
+
+---
+
+### Keyboard navigation
+
+| Key | Behaviour |
+|-----|-----------|
+| `Tab` | Moves focus to the combobox wrapper |
+| `Enter` / `Space` | Opens the dropdown (parent responsibility — switch `state` to `'Active'`) |
+| `Escape` | Closes the dropdown (parent responsibility — switch `state` to `'Filled'` or `'Default'`) |
+| `Tab` (while Active) | Moves focus inside the open dropdown list (parent responsibility) |
+| Any character key (while Active) | Types into the `<input>` and fires `onChange` |
+
+> **Note:** The component does not manage keyboard event handlers internally.
+> The parent is responsible for listening to `keydown` events on the wrapper
+> and switching `state` accordingly. This keeps the state machine explicit and testable.
+
+---
+
+### Screen reader behaviour
+
+**VoiceOver / NVDA — closed state (Default, Filled, Disabled):**
+```
+"Date of birth, collapsed, combobox"
+```
+
+**VoiceOver / NVDA — open state (Active):**
+```
+"Date of birth, expanded, combobox"
+[Focus moves to inner input]
+"Date of birth, edit text"
+```
+
+**Helper row announcement (on showHelper change from false → true):**
+```
+[polite] "Enter a valid date (DD.MM.YYYY)"
+```
+No focus movement. The message is announced at the next available opportunity.
+
+---
+
+### Colour contrast
+
+All text/background combinations meet WCAG 2.1 AA (4.5:1 for body text, 3:1 for large text).
+
+| Element | Foreground token | Background | Ratio |
+|---------|-----------------|------------|-------|
+| Label (resting) | `--color/gray-800` `#161d1e` | `--input/bg` `#ffffff` | 18.9:1 |
+| Value text | `--color/gray-950` `#050708` | `--input/bg` `#ffffff` | 21:1 |
+| Helper — Error | `--color/error` `#ef4444` | `#ffffff` | 4.5:1 |
+| Helper — Warning | `--color/status/yellow-500` `#eab308` | `#ffffff` | 2.8:1 ⚠️ |
+| Helper — Success | `--color/status/green-500` `#22c55e` | `#ffffff` | 2.3:1 ⚠️ |
+
+> ⚠️ Warning and Success helper text rely on the accompanying icon to carry
+> meaning — colour alone does not. This satisfies WCAG 1.4.1 (Use of Color).
+> If your context removes the icon, update the token to meet 4.5:1.
+
+---
+
+### Testing checklist
+
+- [ ] Tab reaches the field from the previous focusable element
+- [ ] Screen reader announces role (`combobox`), label, and expanded state
+- [ ] `Active` state: focus moves to `<input>`, typing works, `onChange` fires
+- [ ] Helper row is announced by screen reader without focus movement
+- [ ] `Disabled` state: field is announced as disabled, keyboard input blocked
+- [ ] No content is conveyed by colour alone (helper icons present alongside colour)

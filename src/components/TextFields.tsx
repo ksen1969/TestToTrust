@@ -4,6 +4,18 @@ import React, { useRef, useEffect } from 'react';
 // Types
 // ─────────────────────────────────────────────
 
+/**
+ * Visual state of the field.
+ *
+ * - `Default`  — resting, no interaction.
+ * - `Hover`    — pointer is over the field. Applied externally (CSS `:hover` or parent logic).
+ * - `Active`   — field is open / in edit mode. Renders a real `<input type="text">`.
+ * - `Filled`   — field has a committed value, not in edit mode.
+ * - `Success`  — value passed validation.
+ * - `Error`    — value failed validation.
+ * - `Warning`  — value is valid but requires attention.
+ * - `Disabled` — field is not interactive. Rendered at 40% opacity.
+ */
 export type TextFieldState =
   | 'Default'
   | 'Hover'
@@ -14,32 +26,111 @@ export type TextFieldState =
   | 'Warning'
   | 'Disabled';
 
+/**
+ * Props for the `TextFields` component.
+ *
+ * The component renders a combobox/select input with a floating label,
+ * optional left/right icons, and an explicit helper row.
+ */
 export interface TextFieldsProps {
-  /** Visual state of the field */
-  state?: TextFieldState;
-  /** Floating label text */
-  label?: string;
-  /** Current value — shown in Filled/Active/feedback states */
-  value?: string;
   /**
-   * Show helper row below the field.
+   * Visual state of the field.
    *
-   * EXPLICIT — never auto-derived from `state`.
-   * You can have state="Error" without a helper,
-   * or state="Default" with one.
+   * Controls border color, label behaviour, and whether the field
+   * renders a real `<input>` (Active) or static text (all other states).
+   *
+   * @default 'Default'
+   */
+  state?: TextFieldState;
+
+  /**
+   * Floating label text shown inside the field.
+   *
+   * In `Default`, `Hover`, and `Disabled` states the label acts as a placeholder.
+   * In `Active`, `Filled`, and feedback states it shrinks above the value.
+   *
+   * @default 'Label'
+   */
+  label?: string;
+
+  /**
+   * Committed value shown when the field is not in edit mode.
+   *
+   * Visible in `Filled`, `Success`, `Error`, and `Warning` states.
+   * Ignored in `Default`, `Hover`, `Active`, and `Disabled`.
+   *
+   * @default 'This is filled data'
+   */
+  value?: string;
+
+  /**
+   * Whether to render the helper row below the field.
+   *
+   * **Always explicit — never auto-derived from `state`.**
+   * You can have `state="Error"` without a helper, and `state="Default"` with one.
+   * Pass `helperMessage` to override the default state-specific text.
+   *
+   * @default false
    */
   showHelper?: boolean;
+
   /**
-   * Text shown in the helper row.
-   * If omitted, falls back to a state-appropriate default.
+   * Custom text for the helper row.
+   *
+   * When omitted, falls back to a state-appropriate default:
+   * - `Success` → `'Success text'`
+   * - `Error`   → `'Error text'`
+   * - `Warning` → `'Warning text'`
+   * - Everything else → `'Helper text'`
+   *
+   * Only rendered when `showHelper={true}`.
    */
   helperMessage?: string;
+
+  /**
+   * Whether to render the left icon slot.
+   *
+   * The slot is a 20×20 px placeholder. Pass your icon as a child
+   * of the slot via `rightInstance` pattern, or extend the component.
+   *
+   * @default false
+   */
   showLeftIcon?: boolean;
+
+  /**
+   * Whether to render the right icon.
+   *
+   * Shows `▾` (ArrowDown) in resting states and `▴` (ArrowUp) in `Active`.
+   * Override the icon entirely with `rightInstance`.
+   *
+   * @default true
+   */
   showRightIcon?: boolean;
-  /** Replaces the default right arrow icon when provided */
+
+  /**
+   * Replaces the default right arrow icon.
+   *
+   * Pass any React node — an icon component, an SVG, or `null` to render nothing.
+   * Takes precedence over the built-in ArrowDown / ArrowUp logic.
+   *
+   * @default null
+   */
   rightInstance?: React.ReactNode | null;
-  /** Fires on every keystroke — only active in the Active state */
+
+  /**
+   * Change handler for the `<input>` rendered in `Active` state.
+   *
+   * Fires on every keystroke. Only called when `state === 'Active'`.
+   * Ignored in all other states (no input is mounted).
+   */
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+
+  /**
+   * Additional CSS class applied to the root wrapper `<div>`.
+   *
+   * Use to override width, margin, or other layout concerns from the parent.
+   * Internal layout and design-token styles are not overrideable via className.
+   */
   className?: string;
 }
 
@@ -149,6 +240,42 @@ const BORDER_COLOR: Record<string, string> = {
 // Component
 // ─────────────────────────────────────────────
 
+/**
+ * `TextFields` — combobox/select input for LUKE Medical Center.
+ *
+ * ### State machine
+ * The component is **controlled by `state`**. It does not manage open/closed
+ * state internally. The parent decides when to switch between states.
+ *
+ * ```
+ * Default → Hover → Active → Filled → Success | Error | Warning
+ *                                ↘ Default (on cancel)
+ * Any → Disabled (external gate)
+ * ```
+ *
+ * ### Helper row
+ * `showHelper` is always explicit. Setting `state="Error"` does **not**
+ * automatically show the helper. This prevents invisible coupling between
+ * validation logic and UI rendering.
+ *
+ * ### Accessibility
+ * The root element is `<div role="combobox">` with `aria-expanded` and
+ * `aria-disabled` reflecting the current state. In `Active` state a real
+ * `<input type="text">` is mounted and auto-focused, making it fully
+ * keyboard-navigable. All decorative icons carry `aria-hidden="true"`.
+ *
+ * @example
+ * // Controlled usage
+ * const [state, setState] = useState<TextFieldState>('Default');
+ * <TextFields
+ *   state={state}
+ *   label="Date of birth"
+ *   value={selectedDate}
+ *   showHelper={hasError}
+ *   helperMessage="Invalid date format"
+ *   onChange={(e) => setInputValue(e.target.value)}
+ * />
+ */
 export function TextFields({
   state = 'Default',
   label = 'Label',
@@ -193,7 +320,7 @@ export function TextFields({
     boxSizing: 'border-box',
   };
 
-  // ── Left placeholder icon (download icon from Figma) ──────────────
+  // ── Left placeholder icon ──────────────────────────────────────────
   const LeftIcon = showLeftIcon ? (
     <div style={{ width: 20, height: 20, flexShrink: 0 }} aria-hidden="true">
       {/* Slot for left icon — pass your icon component here */}
@@ -291,17 +418,17 @@ export function TextFields({
   })();
 
   // ── Helper row ────────────────────────────────────────────────────
-  // Width = 100% of wrapper (matches field width exactly).
-  // Only renders when showHelper is explicitly true.
   const HelperRow = showHelper ? (
     <div
+      role="alert"
+      aria-live="polite"
       style={{
         display: 'flex',
         alignItems: 'center',
         gap: 'var(--spacing/50, 4px)',
         paddingLeft: 'var(--spacing/250, 20px)',
         height: 16,
-        width: '100%', // intentional — matches field width, not 424px
+        width: '100%',
       }}
     >
       {helperConfig.icon === 'check' && (
