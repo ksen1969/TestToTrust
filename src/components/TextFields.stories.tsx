@@ -60,19 +60,19 @@ export default meta;
 type Story = StoryObj<typeof TextFields>;
 
 // ─────────────────────────────────────────────
-// All 8 states
+// All 8 base states
 // ─────────────────────────────────────────────
 
 export const Default: Story = {
-  args: { state: 'Default' },
+  args: { state: 'Default', label: 'Label' },
 };
 
 export const Hover: Story = {
-  args: { state: 'Hover' },
+  args: { state: 'Hover', label: 'Label' },
 };
 
 export const Active: Story = {
-  args: { state: 'Active' },
+  args: { state: 'Active', label: 'Label' },
   parameters: {
     docs: {
       description: {
@@ -83,11 +83,11 @@ export const Active: Story = {
 };
 
 export const Filled: Story = {
-  args: { state: 'Filled', value: 'This is filled data' },
+  args: { state: 'Filled', label: 'Label', value: 'This is filled data' },
 };
 
 export const Disabled: Story = {
-  args: { state: 'Disabled' },
+  args: { state: 'Disabled', label: 'Label' },
 };
 
 // ─────────────────────────────────────────────
@@ -96,7 +96,7 @@ export const Disabled: Story = {
 
 export const SuccessNoHelper: Story = {
   name: 'Success — no helper',
-  args: { state: 'Success', value: 'This is filled data', showHelper: false },
+  args: { state: 'Success', label: 'Label', value: 'This is filled data', showHelper: false },
   parameters: {
     docs: {
       description: {
@@ -109,12 +109,12 @@ export const SuccessNoHelper: Story = {
 
 export const ErrorNoHelper: Story = {
   name: 'Error — no helper',
-  args: { state: 'Error', value: 'This is filled data', showHelper: false },
+  args: { state: 'Error', label: 'Label', value: 'This is filled data', showHelper: false },
 };
 
 export const WarningNoHelper: Story = {
   name: 'Warning — no helper',
-  args: { state: 'Warning', value: 'This is filled data', showHelper: false },
+  args: { state: 'Warning', label: 'Label', value: 'This is filled data', showHelper: false },
 };
 
 // ─────────────────────────────────────────────
@@ -123,7 +123,7 @@ export const WarningNoHelper: Story = {
 
 export const SuccessWithHelper: Story = {
   name: 'Success + helper',
-  args: { state: 'Success', value: 'This is filled data', showHelper: true },
+  args: { state: 'Success', label: 'Label', value: 'This is filled data', showHelper: true },
   parameters: {
     docs: {
       description: {
@@ -137,6 +137,7 @@ export const ErrorWithHelper: Story = {
   name: 'Error + helper',
   args: {
     state: 'Error',
+    label: 'Label',
     value: 'This is filled data',
     showHelper: true,
     helperMessage: 'Це поле обовʼязкове',
@@ -147,6 +148,7 @@ export const WarningWithHelper: Story = {
   name: 'Warning + helper',
   args: {
     state: 'Warning',
+    label: 'Label',
     value: 'This is filled data',
     showHelper: true,
     helperMessage: 'Перевірте правильність даних',
@@ -161,6 +163,7 @@ export const DefaultWithHelper: Story = {
   name: 'Default + helper (edge case)',
   args: {
     state: 'Default',
+    label: 'Label',
     showHelper: true,
     helperMessage: 'Введіть щонайменше 3 символи',
   },
@@ -169,6 +172,80 @@ export const DefaultWithHelper: Story = {
       description: {
         story:
           'Because `showHelper` is independent, you can show a helper on any state — including Default.',
+      },
+    },
+  },
+};
+
+// ─────────────────────────────────────────────
+// Icon variants
+// ─────────────────────────────────────────────
+
+export const WithLeftIcon: Story = {
+  name: 'With Left Icon',
+  args: {
+    state: 'Default',
+    label: 'Label',
+    showLeftIcon: true,
+    showRightIcon: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Field with `showLeftIcon={true}`. The left slot is a 20×20 px placeholder — pass your icon via the component slot.',
+      },
+    },
+  },
+};
+
+// ─────────────────────────────────────────────
+// Booking flow context
+// ─────────────────────────────────────────────
+
+export const BookingFlowContext: Story = {
+  name: 'Booking Flow Context',
+  render: () => (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 12,
+        padding: '24px',
+        background: '#f8fafa',
+        borderRadius: 16,
+        width: 409,
+      }}
+    >
+      <span
+        style={{
+          fontFamily: 'Inter, sans-serif',
+          fontSize: 13,
+          fontWeight: 600,
+          color: '#161d1e',
+          letterSpacing: '0.04em',
+          textTransform: 'uppercase',
+        }}
+      >
+        Booking appointment
+      </span>
+      <TextFields state="Filled" label="Label" value="This is filled data" />
+      <TextFields state="Default" label="Label" />
+      <TextFields
+        state="Error"
+        label="Label"
+        value="This is filled data"
+        showHelper={true}
+        helperMessage="Це поле обовʼязкове"
+      />
+    </div>
+  ),
+  parameters: {
+    layout: 'centered',
+    docs: {
+      description: {
+        story:
+          'TextFields in a realistic booking flow context — shows Filled, Default, and Error states together.',
       },
     },
   },
@@ -199,13 +276,13 @@ export const AllStates: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {(['Default', 'Hover', 'Active', 'Filled', 'Disabled'] as const).map((state) => (
-        <TextFields key={state} state={state} label={state} />
+        <TextFields key={state} state={state} label="Label" />
       ))}
       {(['Success', 'Error', 'Warning'] as const).map((state) => (
         <TextFields
           key={state}
           state={state}
-          label={state}
+          label="Label"
           value="This is filled data"
           showHelper={true}
         />
